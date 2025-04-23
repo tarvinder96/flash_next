@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+ 
+
+body { 
+  font-family: "Jost", sans-serif;
+  color: #272727;
+}
+
+main {
+  margin-top: 0px;
+}
+.hero{
+  background-image: url("../images/hero.jpg");
+}
+.login-page{
+  background-image: url("../images/hero.jpg");
+  background-position: center;
+  background-size: cover;
+  padding: 100px 0;
+}
+
+.fun{
+  background-image: url("../images/banner.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+@layer base {
+  :root { 
+    --radius: 0.5rem;
+  }
+}
+.container { 
+  margin: auto;
+}
+
+.testimonialMain{
+  background: #272727;
+  color: #fff;
+  border-radius: 13px;
+  padding: 50px 0;
+}
+
+.logo {
+  width: 80px;
+}
+
+.custom-datepicker {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.custom-datepicker:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.react-datepicker__day--selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #0056b3;
+  color: white;
+}
+
+.custom-select-content {
+  position: absolute;
+  z-index: 1000;
+  overflow: hidden;
+  max-height: 200px; /* Adjust the max height as needed */
+  overflow-y: auto;
+}
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+.tLogos img {
+  width: 71px;
+  border-radius: 5px;
+}
+
+
+ 
