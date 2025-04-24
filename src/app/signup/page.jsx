@@ -58,10 +58,10 @@ export default function SignUp() {
   
       if (res.ok) {
         alert("Signup successful!");
-        console.log(data.user_id);
-        const encodedId = encodeId(data.user_id);
+     
+        localStorage.setItem("signup_user_id", data.user_id);
         // Redirect with email in query
-        window.location.href = `/register-user/${encodedId}`;
+        window.location.href = `/register-user`;
   
         setForm({ name: "", email: "", password: "", cpassword: "" });
       } else {
