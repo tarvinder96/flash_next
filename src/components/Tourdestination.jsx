@@ -17,7 +17,7 @@ export default function TourSlider() {
     const fetchDestinations = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/get-destination`
+          `https://actyvsolutions.com/flash_pack/public/api/get-destination`
         );
   
         // Check if the response is okay (status 200–299)

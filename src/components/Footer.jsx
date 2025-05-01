@@ -11,7 +11,7 @@ export default function Footer() {
     const fetchSocialLinks = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getsociallink`
+          `https://actyvsolutions.com/flash_pack/public/api/getsociallink`
         );
         const data = await response.json();
         if (data.status) {

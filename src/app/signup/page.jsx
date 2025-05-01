@@ -40,7 +40,7 @@ export default function SignUp() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-register`, {
+      const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/user-register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

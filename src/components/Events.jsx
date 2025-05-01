@@ -20,7 +20,7 @@ export default function Events() {
     const fetchEvents = async () => {
       try {
       
-        const res = await fetch(  `${process.env.NEXT_PUBLIC_API_BASE_URL}/getevents`);
+        const res = await fetch(  `https://actyvsolutions.com/flash_pack/public/api/getevents`);
         const data = await res.json();
 
         if (data.status && data.data) {

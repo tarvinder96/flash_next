@@ -12,14 +12,14 @@ export default function AfricaTours() {
 
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/geteventdetails/${slug}`)
+    fetch(`https://actyvsolutions.com/flash_pack/public/api/geteventdetails/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
           const imageArray = JSON.parse(data.data.image || "[]");
           // Construct full image URLs
           const fullImageURLs = imageArray.map(
-            (img) => `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/images/event_images/${img}`
+            (img) => `https://actyvsolutions.com/flash_pack/public/images/event_images/${img}`
           );
           setImages(fullImageURLs);
         }

@@ -9,7 +9,7 @@ export default function HowitWork() {
     const fetchHowWorks = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/how_works`
+          `https://actyvsolutions.com/flash_pack/public/api/how_works`
         );
         // const response = await fetch("http://localhost:8000/api/how_works");
         const data = await response.json();

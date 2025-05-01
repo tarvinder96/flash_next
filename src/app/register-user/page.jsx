@@ -32,7 +32,7 @@ export default function RegisterUser() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/get-profile/${userid}`);
+        const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/get-profile/${userid}`);
         if (!res.ok) {
           throw new Error("Failed to fetch profile");
         }
@@ -58,7 +58,7 @@ export default function RegisterUser() {
 
     const fetchCountries = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/get-country`, {
+        const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/get-country`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -100,7 +100,7 @@ export default function RegisterUser() {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/update-profile`, {
+      const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/update-profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
