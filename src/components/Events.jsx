@@ -10,17 +10,17 @@ import {
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getevents`
-        );
-       
+      
+        const res = await fetch(  `${process.env.NEXT_PUBLIC_API_BASE_URL}/getevents`);
         const data = await res.json();
 
         if (data.status && data.data) {
@@ -33,6 +33,11 @@ export default function Events() {
 
     fetchEvents();
   }, []);
+
+  // Navigate to event details page on button click
+  const handleViewDetails = (slug) => {
+    router.push(`/event-details/${slug}`);
+  };
 
   return (
     <section className="lg:py-20 py-10">
@@ -51,45 +56,54 @@ export default function Events() {
           </div>
 
           <CarouselContent>
-            {events.map((event, index) => (
-              <CarouselItem
-                key={event.id}
-                className="md:basis-1/2 basis-1/1 lg:basis-1/4"
-              >
-                <div className="p-2 border rounded-xl">
-                  <div className="rounded-xl bg-white text-neutral-950 border-none shadow-none">
-                    <div className="p-0 relative">
-                      {event.image && (
-                        <Image
-                          className="rounded-xl w-full"
-                          src={`https://actyvsolutions.com/flash_pack/public/images/event_images/${JSON.parse(event.image)[0]}`}
-                          alt={event.heading}
-                          width={500}
-                          height={300}
-                        />
-                      )}
-                      
-                    </div>
-                    <div className="px-3 py-2">
-                      <p className="text-gray-500">{event.days}</p>
-                      <h5 className="text-[18px] font-semibold tracking-tight text-gray-900 mb-1">
-                        {event.location}
-                      </h5>
-                      <p className="text-gray-900 mb-1">{event.age}</p>
-                      <p className="text-gray-900 mb-2">
-                        {event.price}
-                      </p>
-                      <button
-                        type="button"
-                        className="text-white bg-[#7F5539] border border-[#7F5539] font-medium rounded-lg lg:text-[18px] lg:px-8 lg:py-3.5 mb-2 px-4 py-2 text-[14px]"
-                      >
-                        View details
-                      </button>
+            {events.map((event) => {
+              // Correct: use about_us_image directly
+              let imageUrl = "";
+              if (event.about_us_image) {
+                // imageUrl = `http://127.0.0.1:8000/images/event_about_images/${event.about_us_image}`;
+                imageUrl = `https://actyvsolutions.com/flash_pack/public/images/event_about_images/${event.about_us_image}`;
+              }
+              return (
+                <CarouselItem
+                  key={event.id}
+                  className="md:basis-1/2 basis-1/1 lg:basis-1/4"
+                >
+                  <div className="p-2 border rounded-xl">
+                    <div className="rounded-xl bg-white text-neutral-950 border-none shadow-none">
+                      <div className="p-0 relative">
+                        {imageUrl && (
+                          <Image
+                            className="rounded-xl w-full"
+                            src={imageUrl}
+                            alt={event.heading || "Event Image"}
+                            width={500}
+                            height={300}
+                            priority={false}
+                          />
+                        )}
+                      </div>
+                      <div className="px-3 py-2">
+                        <p className="text-gray-500">{event.days}</p>
+                        <h5 className="text-[18px] font-semibold tracking-tight text-gray-900 mb-1">
+                          {event.location}
+                        </h5>
+                        <p className="text-gray-900 mb-1">{event.age}</p>
+                        <p className="text-gray-900 mb-2">
+                          From <span className="font-bold">{event.price}</span>
+                        </p>
+                        <button
+                          type="button"
+                          className="text-white bg-[#7F5539] border border-[#7F5539] font-medium rounded-lg lg:text-[18px] lg:px-8 lg:py-3.5 mb-2 px-4 py-2 text-[14px]"
+                          onClick={() => handleViewDetails(event.slug)}
+                        >
+                          View details
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CarouselItem>
-            ))}
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
 
           <div className="absolute bottom-[-50px] left-1/2">

@@ -53,9 +53,9 @@ export default function TourSlider() {
             {destinations.map((destination) => {
               let image = "";
               try {
-                const parsedImage = JSON.parse(destination.image);
+                const parsedImage = destination.about_us_image;
                 image = parsedImage.length > 0
-                  ? `https://actyvsolutions.com/flash_pack/public/images/event_images/${parsedImage[0]}`
+                  ? `https://actyvsolutions.com/flash_pack/public/images/event_about_images/${parsedImage}`
                   : "";
               } catch {
                 image = "";

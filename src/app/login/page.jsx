@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import google from "@/images/google.svg";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 export default function LoginClient() {
   const [email, setEmail] = useState("");
@@ -27,15 +28,28 @@ export default function LoginClient() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Login successful!");
         localStorage.setItem("token", data.access_token);
-        router.push("/"); 
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful!",
+          text: "You will be redirected shortly...",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      } else if (res.status === 403) {
+        Swal.fire("Not Approved", data.message || "Your account is not approved yet.", "warning");
       } else {
-        alert(data.message || "Login failed!");
+        Swal.fire("Login Failed", data.message || "Login failed!", "error");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Something went wrong");
+      Swal.fire("Error", "Something went wrong", "error");
     }
   };
 
@@ -44,19 +58,16 @@ export default function LoginClient() {
       <Header />
       <main>
         <section className="bg-gray-50 login-page relative">
-          <div className="absolute inset-0 bg-black opacity-60 "></div>
-          <div className="relative z-10 flex flex-col h-full items-center justify-center px-6 py-8  md:h-screen lg:py-0">
-            <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+          <div className="overlyhero"></div>
+          <div className="relative z-10 flex flex-col h-full items-center justify-center px-6 py-8 md:h-screen lg:py-0">
+            <div className="w-full bg-white/80 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                   Login
                 </h1>
                 <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900"
-                    >
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
                       Your email
                     </label>
                     <input
@@ -71,10 +82,7 @@ export default function LoginClient() {
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="password"
-                      className="block mb-2 text-sm font-medium text-gray-900"
-                    >
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
                       Password
                     </label>
                     <input
@@ -114,7 +122,7 @@ export default function LoginClient() {
                   <div>
                     <button
                       type="submit"
-                      className="text-white justify-center w-full flex items-center bg-[#7F5539] font-medium rounded-lg text-sm px-5 py-3.5 text-center mb-3"
+                      className="text-dark justify-center w-full flex items-center bg-[#ffa858] font-medium rounded-lg text-sm px-5 py-3.5 text-center mb-3"
                     >
                       Sign in
                     </button>
@@ -144,7 +152,7 @@ export default function LoginClient() {
           </div>
         </section>
       </main>
-      <Footer/>
+      <Footer />
     </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+import Swal from "sweetalert2"; 
 import {  useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Image from "next/image";
@@ -110,20 +111,20 @@ export default function RegisterUser() {
       if (!res.ok) {
         const errorText = await res.text();
         console.error("Error response:", errorText);
-        alert("Failed to update profile.");
+        Swal.fire("Error", "Failed to update profile.", "error");
         return;
       }
-
+  
       const data = await res.json();
       if (data.status) {
-        alert(data.message);
+        await Swal.fire("Success", data.message, "success");
         window.location.href = `/`;
       } else {
-        alert("Error saving profile");
+        Swal.fire("Error", "Error saving profile", "error");
       }
     } catch (error) {
       console.error("Submission error:", error);
-      alert("Failed to submit profile.");
+      Swal.fire("Error", "Failed to submit profile.", "error");
     }
   };
 
