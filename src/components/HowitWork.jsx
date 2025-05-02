@@ -25,9 +25,12 @@ export default function HowitWork() {
     <section className="lg:pt-[80px] pt-[40px]">
       <div className="max-w-[800px] mx-auto lg:px-0 px-4">
         <div className="pb-10">
-          <h2 className="lg:text-4xl text-2xl font-bold text-center">
+          {/* <h2 className="lg:text-4xl text-2xl font-bold text-center">
             How It Works
-          </h2>
+          </h2> */}
+          <h2 className="lg:text-4xl text-2xl font-bold text-center">
+              How <span style={{ color: 'rgba(255, 168, 88, 1)' }}>It</span> Works
+            </h2>
           <div className="lg:w-[100px] w-[50px] h-[4px] mt-2 rounded-[50px] bg-[#7F5539] mx-auto"></div>
         </div>
 

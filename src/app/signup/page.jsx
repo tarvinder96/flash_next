@@ -45,7 +45,7 @@ export default function SignUp() {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-        },
+        }, 
         body: JSON.stringify(form),
       });
 
@@ -104,7 +104,7 @@ export default function SignUp() {
                     >
                       Your Name
                     </label>
-                    <inputs
+                    <input
                       type="text"
                       name="name"
                       id="name"

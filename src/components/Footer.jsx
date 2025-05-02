@@ -69,7 +69,7 @@ export default function Footer() {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/" passHref legacyBehavior>
+                          <Link href="/privacypolicy" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Privacy policy
                             </a>
@@ -77,7 +77,7 @@ export default function Footer() {
                         </li>
 
                         <li>
-                          <Link href="/" passHref legacyBehavior>
+                          <Link href="/termsconditions" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Terms & Conditions
                             </a>
@@ -95,21 +95,21 @@ export default function Footer() {
                         <li>
                           <Link href="/" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
-                              All Trips
+                            Membership
                             </a>
                           </Link>
                         </li>
                         <li>
                           <Link href="/" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
-                              Offter
+                             Book
                             </a>
                           </Link>
                         </li>
                         <li>
                           <Link href="/" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
-                              Contact Us
+                             About
                             </a>
                           </Link>
                         </li>
