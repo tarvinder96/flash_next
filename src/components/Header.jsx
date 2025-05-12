@@ -85,7 +85,9 @@ export default function Header() {
               </Link>
             ) : (
               <>
-                <span className="text-gray-800 text-sm py-2 px-3">{user?.email}</span>
+                <a href="/dashboard">
+                  <span className="text-gray-800 text-sm py-2 px-3">{user?.email}</span>
+                </a>
                 <button
                   onClick={handleLogout}
                   className="rounded-lg text-sm lg:px-5 lg:py-2 px-2 py-1 hover:bg-orange-100"

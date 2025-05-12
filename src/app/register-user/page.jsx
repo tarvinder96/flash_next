@@ -1,11 +1,9 @@
 "use client";
-import Swal from "sweetalert2"; 
-import {  useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Image from "next/image";
 import imgright from "@/images/ad1.jpg";
-
-
 
 export default function RegisterUser() {
   const [userid, setUserid] = useState(null);
@@ -20,11 +18,12 @@ export default function RegisterUser() {
     fullName: "",
     gender: "",
     dob: "",
-    // nationality: "",
-    countryId: "", 
+    country_id: "",
     countryCode: "+1",
     phone: "",
     email: "",
+    city: "",
+    zipcode: "",
   });
 
   const [countries, setCountries] = useState([]);
@@ -32,7 +31,9 @@ export default function RegisterUser() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/get-profile/${userid}`);
+        const res = await fetch(
+          `https://actyvsolutions.com/flash_pack/public/api/get-profile/${userid}`
+        );
         if (!res.ok) {
           throw new Error("Failed to fetch profile");
         }
@@ -45,10 +46,12 @@ export default function RegisterUser() {
             fullName: profileData?.full_name || "",
             gender: profileData?.gender || "",
             dob: profileData?.date_of_birth || "",
-            nationality: "USA",
+            country_id: profileData?.country_id || "",
             countryCode: "+1",
             phone: profileData?.phone || "",
             email: profileData?.email || "",
+            city: profileData?.city || "",
+            zipcode: profileData?.zipcode || "",
           });
         }
       } catch (error) {
@@ -58,12 +61,15 @@ export default function RegisterUser() {
 
     const fetchCountries = async () => {
       try {
-        const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/get-country`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `https://actyvsolutions.com/flash_pack/public/api/get-country`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
         const data = await res.json();
         if (data.status === "success") {
           setCountries(data.data);
@@ -92,21 +98,26 @@ export default function RegisterUser() {
       full_name: form.fullName,
       gender: form.gender,
       date_of_birth: form.dob,
-      country_id: form.nationality,
+      country_id: form.country_id,
       // nationality: form.nationality,
       country_code: form.countryCode,
       phone: form.phone,
       email: form.email,
+      city: form.city,
+      zipcode: form.zipcode,
     };
 
     try {
-      const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/update-profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/update-profile`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -114,7 +125,7 @@ export default function RegisterUser() {
         Swal.fire("Error", "Failed to update profile.", "error");
         return;
       }
-  
+
       const data = await res.json();
       if (data.status) {
         await Swal.fire("Success", data.message, "success");
@@ -137,8 +148,13 @@ export default function RegisterUser() {
             <div className="container relative">
               <div className="grid md:grid-cols-12 grid-cols-1 gap-6">
                 <div className="lg:col-span-6 md:col-span-7">
-                  <h2 className="text-xl font-semibold mb-2">Personal Information</h2>
-                  <form className="max-w-[400px] w-full" onSubmit={handleSubmit}>
+                  <h2 className="text-xl font-semibold mb-2">
+                    Personal Information
+                  </h2>
+                  <form
+                    className="max-w-[400px] w-full"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="mb-3">
                       <label>First Full Name (as on passport)</label>
                       <input
@@ -167,7 +183,7 @@ export default function RegisterUser() {
                     <div className="mb-3">
                       <label>Date of Birth (as on passport)</label>
                       <input
-                        type="text"
+                        type="date"
                         name="dob"
                         className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
                         placeholder="DD/MM/YYYY"
@@ -179,9 +195,9 @@ export default function RegisterUser() {
                     <div className="mb-3">
                       <label>Nationality</label>
                       <select
-                        name="nationality"
+                        name="country_id"
                         className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
-                        value={form.nationality}
+                        value={form.country_id}
                         onChange={handleChange}
                       >
                         <option value="">Select...</option>
@@ -192,8 +208,32 @@ export default function RegisterUser() {
                         ))}
                       </select>
                     </div>
+                    <div className="mb-3">
+                      <label>City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
+                        placeholder="City"
+                        value={form.city}
+                        onChange={handleChange}
+                      />
+                    </div>
 
-                    <h2 className="text-xl font-semibold mb-2 mt-4">Account Information</h2>
+                    <div className="mb-3">
+                      <label>Zip Code</label>
+                      <input
+                        type="text"
+                        name="zipcode"
+                        className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
+                        placeholder="Zip Code"
+                        value={form.zipcode}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <h2 className="text-xl font-semibold mb-2 mt-4">
+                      Account Information
+                    </h2>
 
                     <div className="mb-3">
                       <label>Phone Number</label>

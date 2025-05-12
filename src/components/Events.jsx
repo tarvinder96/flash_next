@@ -19,8 +19,9 @@ export default function Events() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-      
-        const res = await fetch(  `https://actyvsolutions.com/flash_pack/public/api/getevents`);
+        const res = await fetch(
+          `https://actyvsolutions.com/flash_pack/public/api/getevents`
+        );
         const data = await res.json();
 
         if (data.status && data.data) {

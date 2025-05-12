@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Link from "next/link";
@@ -12,7 +12,6 @@ import tv from "@/images/tv.svg";
 import wifi from "@/images/wifi.svg";
 import breakfast from "@/images/breakfast.svg";
 
-import PropTypes from "prop-types";
 import {
   Carousel,
   CarouselContent,
@@ -20,59 +19,180 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect } from "react";
 
 export default function EventDetailsPage() {
   const params = useParams();
   const router = useRouter();
-
-  const slug = params.slug; // This is the dynamic [slug] from URL
+  const slug = params.slug;
 
   const [eventData, setEventData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountryId, setSelectedCountryId] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [features, setFeatures] = useState([]);
 
   const handleBack = () => {
-    router.back(); // For going back
+    router.back();
   };
 
   useEffect(() => {
-    // Fetch event details using the slug
-    if (!eventData && slug) {
-    fetch(`https://actyvsolutions.com/flash_pack/public/api/geteventdetails/${slug}`)
+    if (eventData?.id) {
+      fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/geteventfeature/${eventData.id}`
+      )
+        // fetch(`http://localhost:8000/api/geteventfeature/${eventData.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status && Array.isArray(data.data)) {
+            setFeatures(data.data);
+          } else {
+            console.error("No features found");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching features:", error);
+        });
+    }
+  }, [eventData]);
+
+  // 1. Fetch Event Details
+  useEffect(() => {
+    if (slug) {
+      fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/geteventdetails/${slug}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.status) {
+            setEventData(data.data);
+            setSelectedCountryId(data.data.country_id); // Set selectedCountryId from event data
+          } else {
+            console.error("Event not found");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching event data:", error);
+          setLoading(false);
+        });
+    }
+  }, [slug]);
+
+  // Fetch Country List
+  useEffect(() => {
+    fetch(`https://actyvsolutions.com/flash_pack/public/api/get-country`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched data:", data); 
-        if (data && data.status) {
-          setEventData(data.data); // Assuming your API returns data inside `data.data`
+        if (data.status === "success" && Array.isArray(data.data)) {
+          setCountries(data.data);
         } else {
-          setError("Event not found");
+          console.error("Invalid country data format");
         }
-        setLoading(false);
       })
       .catch((error) => {
-        console.log('Error fetching data:', error);
-        setLoading(false); // Stop loading if there's an error
+        console.error("Error fetching countries:", error);
       });
+  }, []);
+
+  // Fetch Cities based on selectedCountryId
+  useEffect(() => {
+    if (selectedCountryId) {
+      // fetch(`http://localhost:8000/api/get-cities/${selectedCountryId}`)
+      fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/get-cities/${selectedCountryId}`
+      )
+        .then(async (response) => {
+          const contentType = response.headers.get("content-type");
+          const text = await response.text();
+
+          console.log("Raw response:", text);
+
+          if (!response.ok) {
+            console.error("Server error:", response.status);
+            return setCities([]);
+          }
+
+          if (!contentType || !contentType.includes("application/json")) {
+            console.error("Expected JSON but got:", contentType);
+            return setCities([]);
+          }
+
+          try {
+            const jsonData = JSON.parse(text);
+            if (jsonData.status === "success") {
+              setCities(jsonData.data);
+            } else {
+              console.error("API responded with error status.");
+              setCities([]);
+            }
+          } catch (err) {
+            console.error("JSON parse error:", err);
+            setCities([]);
+          }
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+          setCities([]);
+        });
     }
-  }, [slug,eventData]); // Effect runs whenever the slug changes
+  }, [selectedCountryId]);
 
+  // Log eventData.city_id to check if it's correct
+  useEffect(() => {
+    console.log("Event Data City ID:", eventData?.city_id);
+  }, [eventData]);
 
+  // Find the city name based on eventData.city_id
+  const cityName = cities.find((city) => city.id == eventData?.city_id)?.city;
+  console.log("City Name:", cityName);
+
+  // Get Country Name from eventData.country_id
+  const countryName = countries.find(
+    (c) => c.id == eventData?.country_id
+  )?.country_name;
+
+  const handleViewDetails = (slug) => {
+    // router.push(`/myaccount/${slug}`);checkout
+    router.push(`/checkout/${slug}`);
+  };
   return (
     <>
       <Header />
       <main className="pt-[50px] details-bg">
         <section className="max-w-screen-xl mx-auto lg:px-0 px-4">
-          <section className="relative md:py-16 py-16 ">
+          <section className="relative md:py-16 py-16">
             <div className="container relative">
-              {" "}
               <div className="lg:block hidden">
                 <Gallery />
               </div>
-              <div className="grid md:grid-cols-12 grid-cols-1 gap-6 ">
+              <div className="grid md:grid-cols-12 grid-cols-1 gap-6">
                 <div className="lg:col-span-8 md:col-span-7 lg:order-1 order-2">
                   <div className="flex gap-1 items-center text-[#585858] pt-4">
-                    <span> Home
+                    <span>Home</span>
+                    <span>
+                      <svg
+                        className="w-4 h-4"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="m9 5 7 7-7 7"
+                        />
+                      </svg>
                     </span>
+                    <span>{countryName}</span>
+
                     <span>
                       {" "}
                       <svg
@@ -93,38 +213,18 @@ export default function EventDetailsPage() {
                         />
                       </svg>
                     </span>
-                    <span>Asia</span>
-                    <span>
-                      {" "}
-                      <svg
-                        className="w-4 h-4"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="m9 5 7 7-7 7"
-                        />
-                      </svg>
-                    </span>
-                    <span>Vietnam</span>
+                    <span>{cityName}</span>
                   </div>
                   <h5 className="text-3xl font-semibold mt-5 lg:px-0 px-4">
-                    Secret Vietnam
+                    <span>{eventData?.heading}</span>
+                    {/* Secret Vietnam */}
                   </h5>
                   <p className="text-[#585858]">
-                    From jungle to coast, Vietnam promises breathtaking beauty,
+                    {/* From jungle to coast, Vietnam promises breathtaking beauty,
                     a fascinatingly complex history plus world-beloved street
-                    food flavors. Here’s how to see its authentic Asian soul
+                    food flavors. Here’s how to see its authentic Asian soul */}
+                    <span>{eventData?.about_us}</span>
                   </p>
-
                   <div className="border-dashed border-[2px] rounded-xl p-4 bg-white my-8 w-fit">
                     <h5 className="text-[18px] font-[600]">
                       This is one of our best-selling adventures
@@ -185,51 +285,34 @@ export default function EventDetailsPage() {
                   </div>
 
                   <div className="mt-5">
-                    <h2 className="text-[22px] font-[600]">Whats included</h2>
+                    <h2 className="text-[22px] font-[600]">What's included</h2>
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
-                      <div className="flex gap-3 text-[#585858] mb-4">
-                        <div className="w-[50px]">
-                          <Image src={tv} alt="" width={20} />
+                      {features.length > 0 ? (
+                        features.map((feature, index) => (
+                          <div
+                            key={index}
+                            className="flex gap-3 text-[#585858] mb-4"
+                          >
+                            <div className="w-[50px]">
+                              {feature.image_url && (
+                                <Image
+                                  src={feature.image_url}
+                                  alt="feature"
+                                  width={30}
+                                  height={30}
+                                />
+                              )}
+                            </div>
+                            <span>
+                              {feature.description.replace(/<\/?p>/g, "")}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-[#888]">
+                          No features available.
                         </div>
-                        <div className="">
-                          Lorem ipsum is placeholder text commonly used in the
-                          graphic, print, and publishing industries for
-                          previewing layouts and visual mockups.
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3 text-[#585858] mb-4">
-                        <div className="w-[50px]">
-                          <Image src={pool} alt="" width={20} />
-                        </div>
-                        <div className="">
-                          Lorem ipsum is placeholder text commonly used in the
-                          graphic, print, and publishing industries for
-                          previewing layouts and visual mockups.
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3 text-[#585858] mb-4">
-                        <div className="w-[50px]">
-                          <Image src={breakfast} alt="" width={20} />
-                        </div>
-                        <div className="">
-                          Lorem ipsum is placeholder text commonly used in the
-                          graphic, print, and publishing industries for
-                          previewing layouts and visual mockups.
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3 text-[#585858] mb-4">
-                        <div className="w-[50px]">
-                          <Image src={wifi} alt="" width={20} />
-                        </div>
-                        <div className="">
-                          Lorem ipsum is placeholder text commonly used in the
-                          graphic, print, and publishing industries for
-                          previewing layouts and visual mockups.
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </div>
 
@@ -237,7 +320,7 @@ export default function EventDetailsPage() {
                     <h2 className="text-[22px] font-[600]"> Your itinerary</h2>
 
                     <div className="mt-5 ">
-                      <Accordions />
+                      <Accordions slug={slug} />
                     </div>
                   </div>
 
@@ -511,27 +594,38 @@ export default function EventDetailsPage() {
                 <div className="lg:col-span-4 md:col-span-5 lg:order-2 order-1 lg:px-0 px-4">
                   <div className="p-4 rounded-md shadow border sticky top-[100px] bg-white mt-5">
                     <div className="bg-[#FFEFE4] w-full p-2 rounded-full text-center">
-                      Pay <strong>$300</strong> now and reserve your spot
+                      Pay <strong>{eventData?.price}</strong> now and reserve
+                      your spot
                     </div>
 
-                    <h4 className="text-xl my-3">5 days from $3,495 usd</h4>
+                    <h4 className="text-xl my-3">
+                      {eventData?.days} from {eventData?.price} usd
+                    </h4>
 
                     <div className="flex gap-2 mt-4">
-                      <div className="border p-2">AGES 30-49</div>
-
-                      <div className="border p-2">AGES 45-59</div>
+                      <div className="border p-2">{eventData?.age}</div>
+                      {/* <div className="border p-2">AGES 45-59</div> */}
                     </div>
 
                     <div className="mt-4">
-                      <Link href="#" passHref legacyBehavior>
-                        <button
-                          type="button"
-                          className="text-white bg-[#7F5539] border border-[#7F5539] focus:outline-none   font-medium rounded-lg lg:text-[18px] lg:px-8 lg:py-3.5 mb-2 px-4 py-2 text-[14px] mt-4 w-full"
-                        >
-                          Book Now
-                        </button>
-                      </Link>
+                      <button
+                        type="button"
+                        className="text-white bg-[#7F5539] border border-[#7F5539] focus:outline-none font-medium rounded-lg lg:text-[18px] lg:px-8 lg:py-3.5 mb-2 px-4 py-2 text-[14px] mt-4 w-full"
+                        onClick={() => handleViewDetails(slug)}
+                      >
+                        Book Now
+                      </button>
                     </div>
+                    {/* <div className="mt-4">
+                    <Link href="/myaccount" passHref legacyBehavior>
+                      <button
+                        type="button"
+                        className="text-white bg-[#7F5539] border border-[#7F5539] focus:outline-none font-medium rounded-lg lg:text-[18px] lg:px-8 lg:py-3.5 mb-2 px-4 py-2 text-[14px] mt-4 w-full"
+                      >
+                        Book Now
+                      </button>
+                    </Link>
+                  </div> */}
                   </div>
                 </div>
               </div>
@@ -544,4 +638,3 @@ export default function EventDetailsPage() {
     </>
   );
 }
-

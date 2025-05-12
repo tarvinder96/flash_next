@@ -6,16 +6,16 @@ import Header from "@/components/Header";
 export default function TermsConditions() {
   const [content, setContent] = useState('');
 
-  useEffect(() => {
-    fetch('https://actyvsolutions.com/flash_pack/public/api/terms-condition')
-      .then(response => response.json())
-      .then(data => {
-        if (data.success && data.data) {
-          setContent(data.data.description);
-        }
-      })
-      .catch(error => console.error('Error fetching terms:', error));
-  }, []);
+    
+  fetch(`https://actyvsolutions.com/flash_pack/public/api/terms-condition`)
+  .then(response => response.json())
+  .then(data => {
+    if (data.success && data.data) {
+      setContent(data.data.description);
+    }
+  })
+  .catch(error => console.error('Error fetching terms:', error));
+
 
   return (
     <>

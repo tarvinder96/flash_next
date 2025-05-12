@@ -17,17 +17,21 @@ export default function LoginClient() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
       if (res.ok) {
+        //console.log('user data',data);
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
@@ -43,7 +47,11 @@ export default function LoginClient() {
           router.push("/");
         }, 2000);
       } else if (res.status === 403) {
-        Swal.fire("Not Approved", data.message || "Your account is not approved yet.", "warning");
+        Swal.fire(
+          "Not Approved",
+          data.message || "Your account is not approved yet.",
+          "warning"
+        );
       } else {
         Swal.fire("Login Failed", data.message || "Login failed!", "error");
       }
@@ -65,9 +73,15 @@ export default function LoginClient() {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                   Login
                 </h1>
-                <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                <form
+                  className="space-y-4 md:space-y-6"
+                  onSubmit={handleSubmit}
+                >
                   <div>
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label
+                      htmlFor="email"
+                      className="block mb-2 text-sm font-medium text-gray-900"
+                    >
                       Your email
                     </label>
                     <input
@@ -82,7 +96,10 @@ export default function LoginClient() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label
+                      htmlFor="password"
+                      className="block mb-2 text-sm font-medium text-gray-900"
+                    >
                       Password
                     </label>
                     <input
