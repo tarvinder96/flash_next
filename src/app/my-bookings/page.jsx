@@ -26,7 +26,6 @@ export default function MyBookings() {
       setLoading(false);
       return;
     }
-    // fetch(`http://localhost:8000/api/bookings/user/${user.id}`)
     fetch(
       `https://actyvsolutions.com/flash_pack/public/api/bookings/user/${user.id}`
     )

@@ -39,6 +39,7 @@ export default function Checkout() {
         city: parsed.city || "",
         zipcode: parsed.zipcode || "",
         country_id: parsed.country_id || "",
+        slug: slug,
       });
     }
   }, []);
@@ -59,31 +60,39 @@ export default function Checkout() {
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
 
-  // Fetch event details after countries load
-  // useEffect(() => {
-  //   if (!slug || countries.length === 0) return;
+  
 
-  //   fetch(
-  //     `https://actyvsolutions.com/flash_pack/public/api/geteventdetails/${slug}`
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data?.status && data.data?.country_id) {
-  //         setSelectedCountryId(String(data.data.country_id)); // Ensure it's a string
-  //       } else {
-  //         console.error("Event not found or missing country_id.");
-  //       }
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching event data:", error);
-  //       setLoading(false);
-  //     });
-  // }, [slug, countries]);
-
-  const handleViewDetails = (slug) => {
+  const handleViewDetails = async(slug) => {
     if (slug) {
-      router.push(`/myaccount/${slug}`);
+      try {
+        const saveresponse = await fetch(
+          `https://actyvsolutions.com/flash_pack/public/api/bookings`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          }
+        );
+  
+        const result = await saveresponse.json();
+  
+        if (result.status == "success") {
+          alert("Booking has been Completed. Thank you!");
+          router.push(`/myaccount/${slug}`);
+        } else {
+          console.error(result);
+          alert("Failed to save card details.");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Failed to save card details.");
+      }
+
+
+
+     
     } else {
       console.error("Invalid event slug");
     }
@@ -172,6 +181,7 @@ export default function Checkout() {
                   <input
                     type="text"
                     name="city"
+                    readOnly
                     placeholder="Enter town/city..."
                     className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
                     value={userData.city || ""}
@@ -183,6 +193,7 @@ export default function Checkout() {
                   <input
                     type="text"
                     name="zipcode"
+                    readOnly
                     placeholder="Enter code..."
                     className="w-full border p-2 mt-1 rounded-lg bg-gray-100"
                     value={userData.zipcode || ""}

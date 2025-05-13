@@ -120,6 +120,8 @@ export default function MyAccount() {
     };
 
     console.log("formDataWithStatic:", formDataWithStatic);
+    console.log("userData:", userData);
+    
     try {
       const saveresponse = await fetch(
         `https://actyvsolutions.com/flash_pack/public/api/save-card-details`,
@@ -137,7 +139,7 @@ export default function MyAccount() {
 
       if (result.status == "success") {
         alert("Booking has been Completed. Thank you!");
-        router.push("/dashboard");
+         router.push("/my-bookings");
       } else {
         console.error(result);
         alert("Failed to save card details.");
@@ -164,9 +166,9 @@ export default function MyAccount() {
                     Account
                   </div>
                 </Link>
-                <Link href="#" passHref legacyBehavior>
+                {/* <Link href="#" passHref legacyBehavior>
                   <div className="font-semibold cursor-pointer">My Trips</div>
-                </Link>
+                </Link> */}
               </div>
               <div>
                 <button
@@ -181,8 +183,9 @@ export default function MyAccount() {
           </div>
 
           <div className="max-w-screen-xl m-auto mt-12">
-            <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1">
-              <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex items-center justify-center  bg-white-100">
+          <div className="w-full max-w-2xl">
+              <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <h2 className="text-xl font-semibold mb-5">Card Details</h2>
 
                 {/* Full Name */}
@@ -252,9 +255,10 @@ export default function MyAccount() {
                   type="submit"
                   className="mt-6 w-full bg-[#7F5539] border border-[#7F5539] text-white py-2 rounded-lg"
                 >
-                  Save
+                  Book Now
                 </button>
               </form>
+            </div>
             </div>
           </div>
         </div>
