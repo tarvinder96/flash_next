@@ -135,7 +135,7 @@ export default function MyBookings() {
                             </td>
 
                             <td className="px-6 py-4">
-                              {booking.payment_status === "paid" ? (
+                              {booking.payment_status === "completed" ? (
                                 <span className="text-green-600 font-medium">
                                   Paid
                                 </span>
