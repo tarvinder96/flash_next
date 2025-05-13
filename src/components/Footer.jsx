@@ -62,11 +62,11 @@ export default function Footer() {
                       </h4>
                       <ul className="space-y-3">
                         <li>
-                          <Link href="/" passHref legacyBehavior>
+                          {/* <Link href="/" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Site Map
                             </a>
-                          </Link>
+                          </Link> */}
                         </li>
                         <li>
                           <Link href="/privacypolicy" passHref legacyBehavior>
@@ -100,7 +100,7 @@ export default function Footer() {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/" passHref legacyBehavior>
+                          <Link href="all-trips" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Book
                             </a>
