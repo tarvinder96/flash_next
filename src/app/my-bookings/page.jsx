@@ -117,7 +117,7 @@ export default function MyBookings() {
                               {booking.event?.location || "N/A"}
                             </td>
                             <td className="px-6 py-4">
-                              ${booking.price ?? "N/A"}
+                              {booking.price ?? "N/A"}
                             </td>
                             <td className="px-6 py-4">
                               {booking.event?.days || "N/A"}
