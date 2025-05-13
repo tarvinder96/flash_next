@@ -2,9 +2,12 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function TourBox({ imageSrc, location }) {
+export default function TourBox({ imageSrc, location, onClick }) {
   return (
-    <Card className="border-none shadow-none bg-transparent">
+    <Card
+      onClick={onClick}
+      className="border-none shadow-none bg-transparent cursor-pointer hover:opacity-90 transition"
+    >
       <CardContent className="p-0 relative">
         <Image
           className="w-full rounded-[500px]"
@@ -22,6 +25,7 @@ export default function TourBox({ imageSrc, location }) {
     </Card>
   );
 }
+
 TourBox.defaultProps = {
   imageSrc: "https://via.placeholder.com/150",
   location: "Unknown location",
@@ -30,4 +34,5 @@ TourBox.defaultProps = {
 TourBox.propTypes = {
   imageSrc: PropTypes.string,
   location: PropTypes.string,
+  onClick: PropTypes.func, // ✅ add this
 };

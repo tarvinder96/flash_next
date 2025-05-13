@@ -60,9 +60,7 @@ export default function Checkout() {
       .catch((err) => console.error("Error fetching countries:", err));
   }, []);
 
-  
-
-  const handleViewDetails = async(slug) => {
+  const handleViewDetails = async (slug) => {
     if (slug) {
       try {
         const saveresponse = await fetch(
@@ -75,11 +73,13 @@ export default function Checkout() {
             body: JSON.stringify(userData),
           }
         );
-  
+
         const result = await saveresponse.json();
-  
+
         if (result.status == "success") {
-          alert("Thank you for booking! Your reservation is saved. Complete the payment to finalize your booking.");
+          alert(
+            "Thank you for booking! Your reservation is saved. Complete the payment to finalize your booking."
+          );
           router.push(`/myaccount/${slug}`);
         } else {
           console.error(result);
@@ -89,10 +89,6 @@ export default function Checkout() {
         console.error("Error:", err);
         alert("Failed to save card details.");
       }
-
-
-
-     
     } else {
       console.error("Invalid event slug");
     }

@@ -1,4 +1,43 @@
+"use client";
+import React, { useState } from "react";
+
 export default function Subscript() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage(data.message);
+        setEmail("");
+      } else {
+        // Validation error handling
+        if (data.errors && data.errors.email) {
+          setMessage(data.errors.email[0]);
+        } else {
+          setMessage("Something went wrong.");
+        }
+      }
+    } catch (error) {
+      setMessage("Network error. Please try again.");
+    }
+  };
+
   return (
     <>
       <section className="bg-[#EDE0D4] mt-20 py-10">
@@ -10,7 +49,14 @@ export default function Subscript() {
             Lorem ipsum is placeholder text commonly used in the graphic, print,
             and publishing industries for previewing layouts and visual mockups
           </p>
-          <form className="w-full max-w-md mx-auto">
+
+          {message && (
+            <div className="mb-4 text-sm text-green-600 dark:text-green-400">
+              {message}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
             <label
               htmlFor="default-email"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -18,7 +64,7 @@ export default function Subscript() {
               Email sign-up
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 rtl:inset-x-0 start-0 flex items-center ps-3.5 pointer-events-none">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
                   aria-hidden="true"
@@ -33,13 +79,15 @@ export default function Subscript() {
               <input
                 type="email"
                 id="default-email"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your email here..."
-                required=""
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <button
                 type="submit"
-                className="text-white absolute end-2.5 bottom-2.5 bg-[#7F5539] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-4 py-2"
+                className="text-white absolute end-2.5 bottom-2.5 bg-[#7F5539] hover:bg-[#7F5539] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
               >
                 Sign up
               </button>

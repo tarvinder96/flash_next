@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useParams ,useRouter } from 'next/navigation';
+import { useParams, useRouter } from "next/navigation";
 
 import Image from "next/image";
 import logo from "../images/logo.jpg";
@@ -56,20 +56,20 @@ export default function SideBar() {
 
   const [userData, setUserData] = useState({
     id: null,
-    email: '',
-    full_name: '',
-    phone: '',
-    date_of_birth: '',
+    email: "",
+    full_name: "",
+    phone: "",
+    date_of_birth: "",
   });
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUserData({
       id: null,
-    email: '',
-    full_name: '',
-    phone: '',
-    date_of_birth: '',
+      email: "",
+      full_name: "",
+      phone: "",
+      date_of_birth: "",
     });
     router.push("/login");
   };
@@ -245,7 +245,7 @@ export default function SideBar() {
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" passHref legacyBehavior>
+                        <Link href="aboutus" passHref legacyBehavior>
                           <a className="block py-2 px-3 text-gray-800">About</a>
                         </Link>
                       </li>
@@ -348,8 +348,7 @@ export default function SideBar() {
                   </a>
                 </Link>
               </li>
-              <li>               
-              </li>
+              <li></li>
               <li>
                 <Link href="/my-bookings" passHref legacyBehavior>
                   <a className="font-[400] flex items-center p-2 text-white rounded-lg   hover:bg-white hover:text-gray-700   group">
@@ -432,31 +431,32 @@ export default function SideBar() {
                 </Link>
               </li>
 
-              <li>      
-                  <a
-                   onClick={handleLogout}
-                   className="font-[400] flex items-center p-2 text-white rounded-lg   hover:bg-white hover:text-gray-700  group">
-                    <svg
-                      className="w-6 h-6"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
-                      />
-                    </svg>
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Sign out
-                    </span>
-                  </a>             
+              <li>
+                <a
+                  onClick={handleLogout}
+                  className="font-[400] flex items-center p-2 text-white rounded-lg   hover:bg-white hover:text-gray-700  group"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
+                    />
+                  </svg>
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Sign out
+                  </span>
+                </a>
               </li>
             </>
           </ul>

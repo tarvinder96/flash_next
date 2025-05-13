@@ -11,6 +11,16 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("user"); // Replace with your own logic for checking login status
+    if (userToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -86,7 +96,9 @@ export default function Header() {
             ) : (
               <>
                 <a href="/dashboard">
-                  <span className="text-gray-800 text-sm py-2 px-3">{user?.email}</span>
+                  <span className="text-gray-800 text-sm py-2 px-3">
+                    {user?.email}
+                  </span>
                 </a>
                 <button
                   onClick={handleLogout}
@@ -154,11 +166,48 @@ export default function Header() {
             </svg>
           </button>
           <ul className="flex flex-col p-4 space-y-4">
-            <li><Link href="/" passHref legacyBehavior><a className="block py-2 px-3 text-gray-800">Home</a></Link></li>
-            <li><Link href="#" passHref legacyBehavior><a className="block py-2 px-3 text-gray-800">Profile</a></Link></li>
-            <li><Link href="#" passHref legacyBehavior><a className="block py-2 px-3 text-gray-800">Membership</a></Link></li>
-            <li><Link href="#" passHref legacyBehavior><a className="block py-2 px-3 text-gray-800">Book</a></Link></li>
-            <li><Link href="#" passHref legacyBehavior><a className="block py-2 px-3 text-gray-800">About</a></Link></li>
+            <li>
+              <Link href="/" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">Home</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="all-trips" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">All Event</a>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href={isLoggedIn ? "/register-user" : "/signup"}
+                passHref
+                legacyBehavior
+              >
+                <a className="block py-2 px-3 text-gray-800">
+                  {isLoggedIn ? "Profile" : "Register"}
+                </a>
+              </Link>
+            </li>
+            {/* <li>
+              <Link href="register-user" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">Profile</a>
+              </Link>
+            </li> */}
+            <li>
+              <Link href="#" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">Membership</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="all-trips" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">Book</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="aboutus" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">About</a>
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

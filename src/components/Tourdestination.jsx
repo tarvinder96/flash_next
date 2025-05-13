@@ -9,34 +9,39 @@ import {
 } from "@/components/ui/carousel";
 import TourBox from "./TourBox";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function TourSlider() {
   const [destinations, setDestinations] = useState([]);
-  console.log("Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
+  const router = useRouter();
+
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
         const response = await fetch(
           `https://actyvsolutions.com/flash_pack/public/api/get-destination`
         );
-  
-        // Check if the response is okay (status 200–299)
+
         if (!response.ok) {
-          const errorText = await response.text(); // get the HTML or error content
+          const errorText = await response.text();
           console.error("HTTP Error:", response.status, errorText);
           return;
         }
-  
+
         const data = await response.json();
-        setDestinations(data.data); // assuming the response has { data: [...] }
-  
+        setDestinations(data.data);
       } catch (error) {
         console.error("Error fetching destinations:", error);
       }
     };
-  
+
     fetchDestinations();
   }, []);
+
+  const handleViewDetails = (slug) => {
+    console.log("Navigating to slug:", slug);
+    router.push(`/event-details/${slug}`);
+  };
 
   return (
     <div className="container py-20 px-4 bg-[#FFFCFA]">
@@ -51,12 +56,15 @@ export default function TourSlider() {
         <Carousel className="max-w-screen-xl mx-auto" opts={{ align: "start" }}>
           <CarouselContent>
             {destinations.map((destination) => {
+              console.log(destination.slug);
+
               let image = "";
               try {
                 const parsedImage = destination.about_us_image;
-                image = parsedImage.length > 0
-                  ? `https://actyvsolutions.com/flash_pack/public/images/event_about_images/${parsedImage}`
-                  : "";
+                image =
+                  parsedImage.length > 0
+                    ? `https://actyvsolutions.com/flash_pack/public/images/event_about_images/${parsedImage}`
+                    : "";
               } catch {
                 image = "";
               }
@@ -71,6 +79,7 @@ export default function TourSlider() {
                     location={destination.location}
                     rating={4.5}
                     score={"5.0"}
+                    onClick={() => handleViewDetails(destination.slug)}
                   />
                 </CarouselItem>
               );
