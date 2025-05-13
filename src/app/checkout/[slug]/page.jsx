@@ -79,7 +79,7 @@ export default function Checkout() {
         const result = await saveresponse.json();
   
         if (result.status == "success") {
-          alert("Booking has been Completed. Thank you!");
+          alert("Thank you for booking! Your reservation is saved. Complete the payment to finalize your booking.");
           router.push(`/myaccount/${slug}`);
         } else {
           console.error(result);
