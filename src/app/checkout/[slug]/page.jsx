@@ -12,6 +12,7 @@ export default function Checkout() {
 
   const [countries, setCountries] = useState([]);
   const [selectedCountryId, setSelectedCountryId] = useState("");
+  const [eventData, setEventData] = useState(null);
   //console.log("selectedCountryId", selectedCountryId);
   const [userData, setUserData] = useState({
     id: null,
@@ -45,6 +46,28 @@ export default function Checkout() {
   }, []);
 
   console.log("userData", userData);
+
+  useEffect(() => {
+    if (slug) {
+      fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/geteventdetails/${slug}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.status) {
+            setEventData(data.data);
+            setSelectedCountryId(data.data.country_id); // Set selectedCountryId from event data
+          } else {
+            console.error("Event not found");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching event data:", error);
+          setLoading(false);
+        });
+    }
+  }, [slug]);
 
   // Fetch countries first
   useEffect(() => {
@@ -228,21 +251,19 @@ export default function Checkout() {
             <div>
               <div className="bg-[#ffefe1] p-6 rounded-xl mb-6">
                 <h2 className="text-2xl font-bold mb-4">Order details</h2>
-                <h3 className="font-semibold">Secret Vietnam</h3>
+                <h3 className="font-semibold">{eventData?.heading}</h3>
                 <p className="text-sm text-gray-600 mt-1 mb-3">
-                  From Slovenia's jagged peaks to Croatia’s dreamy coastline,
-                  this adventure packs in fairytale lakes, hilltop towns and
-                  plenty of gourmet food. Welcome to the good life
+                  {eventData?.about_us}
                 </p>
                 <div className="flex gap-4 text-sm font-semibold mb-1">
                   <span className="bg-white border rounded-full px-3 py-1">
-                    14th Jun 2025
+                    {eventData?.start_date}
                   </span>
                   <span className="bg-white border rounded-full px-3 py-1">
-                    22nd Jun 2025
+                    {eventData?.end_date}
                   </span>
                 </div>
-                <p className="text-sm mb-4">9 days, 8 nights</p>
+                <p className="text-sm mb-4"> {eventData?.days}, 8 nights</p>
                 <h4 className="font-semibold mb-2">Package includes</h4>
                 <ul className="space-y-2 text-sm text-gray-800">
                   <li className="flex items-center">
@@ -370,14 +391,13 @@ export default function Checkout() {
               <div className="bg-[#ffefe1] p-6 rounded-xl">
                 <div className="flex justify-between items-center text-lg font-semibold">
                   <span>Trip total</span>
-                  <span>$4,395</span>
+                  <span>{eventData?.price}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
       <Footer />
     </>
   );

@@ -1,17 +1,16 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
-
 export default async function PrivacyPolicyPage() {
-  let description = ""; 
+  let description = "";
 
   try {
-    
-
-    const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/privacy-policy`, {
-      cache: "no-store",
-    });
-    
+    const res = await fetch(
+      `https://actyvsolutions.com/flash_pack/public/api/privacy-policy`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to fetch");
@@ -19,11 +18,11 @@ export default async function PrivacyPolicyPage() {
 
     const data = await res.json();
     description = data?.data?.description
-      ? data?.data?.description.replace(/\r\n/g, "<br />") 
+      ? data?.data?.description.replace(/\r\n/g, "<br />")
       : "Privacy policy is unavailable";
   } catch (error) {
     console.error("Error fetching privacy policy:", error);
-    description = "Privacy policy is currently unavailable."; 
+    description = "Privacy policy is currently unavailable.";
   }
 
   return (

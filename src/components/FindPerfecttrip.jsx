@@ -1,23 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import faster from "../images/faster.png";
-import Link from "next/link";
 
 export default function SignupButton() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const userToken = localStorage.getItem("user");
-    setIsLoggedIn(!!userToken);
-  }, []);
-
   const handleRedirect = () => {
-    if (isLoggedIn) {
-      router.push("/register-user");
+    const userToken = localStorage.getItem("user");
+    if (userToken) {
+      router.push("/dashboard");
     } else {
       router.push("/signup");
     }
@@ -57,7 +50,7 @@ export default function SignupButton() {
           </div>
 
           <div className="lg:block hidden">
-            <Image src={faster} alt="" />
+            <Image src={faster} alt="Trip faster image" />
           </div>
         </div>
       </div>

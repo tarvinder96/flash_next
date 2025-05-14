@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import Image from "next/image";
-import logo from "../images/logo.jpg";
+import logo from "../images/logo.png";
 import Link from "next/link";
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);

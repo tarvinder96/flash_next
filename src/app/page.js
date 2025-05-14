@@ -23,8 +23,8 @@ export default function Home() {
     <TourSlider/>
     <HowitWork/>
     <Fun/>
-    <Events/>
-    <PopularAdventures/>
+    {/* <Events/> */}
+    {/* <PopularAdventures/> */}
     <FindPerfecttrip/>
    
     <Testimonials/>

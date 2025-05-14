@@ -13,17 +13,26 @@ const Testimonials = ({ heading, reviews, carouselOptions }) => {
       <div className="container px-4">
         <div className="pb-10">
           <h2 className="lg:text-4xl text-2xl font-bold text-center">
-            Rated as Excellent by over 1,000 travelers
+            {/* Rated as Excellent by over 1,000 travelers */}
+            Review
           </h2>
           <div className="max-w-[450px] mx-auto w-full">
             <p className="text-center lg:text-[16px] text-[14px]">
-              Rated as Excellent on Trustpilot
+              {/* Rated as Excellent on Trustpilot */}
             </p>
           </div>
           <div className="lg:w-[100px] w-[50px] h-[4px] mt-2 rounded-[50px] bg-[#7F5539] mx-auto"></div>
         </div>
+        <div className="max-w-[450px] mx-auto w-full flex justify-center items-center">
+          <p
+            className="text-center lg:text-[24px] text-[20px] font-bold"
+            style={{ color: "rgba(255, 168, 88, 1)" }}
+          >
+            Coming soon!
+          </p>
+        </div>
 
-        <div className="px-4 pb-10 lg:hidden block">
+        {/* <div className="px-4 pb-10 lg:hidden block">
           <Carousel className="w-full" opts={{ align: "start" }}>
             <CarouselContent>
               <CarouselItem className="w-full">
@@ -280,9 +289,9 @@ const Testimonials = ({ heading, reviews, carouselOptions }) => {
               <CarouselNext className="" />
             </div>
           </Carousel>
-        </div>
+        </div> */}
 
-        <div className="max-w-screen-xl mx-auto lg:block hidden">
+        {/* <div className="max-w-screen-xl mx-auto lg:block hidden">
           <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-4">
             <div className="grid gap-4">
               <div>
@@ -863,7 +872,7 @@ const Testimonials = ({ heading, reviews, carouselOptions }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

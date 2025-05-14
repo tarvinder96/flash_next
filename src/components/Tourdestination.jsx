@@ -48,7 +48,7 @@ export default function TourSlider() {
       <div className="max-w-screen-xl mx-auto">
         <div className="pb-10">
           <h2 className="lg:text-4xl text-2xl font-bold text-center">
-            Top destinations
+            Top venus
           </h2>
           <div className="lg:w-[100px] w-[50px] h-[4px] mt-2 rounded-[50px] bg-[#7F5539] mx-auto"></div>
         </div>
