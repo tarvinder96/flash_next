@@ -177,45 +177,38 @@ export default function Header() {
               </Link>
             </li> */}
             {!isLoggedIn ? (
-              <>
-                <li>
+              <li>
+                <div className="flex items-center space-x-1 text-gray-800 px-3 py-2">
                   <Link href="/login" passHref legacyBehavior>
-                    <a className="block py-2 px-3 text-gray-800">Sign In</a>
+                    <a className="hover:underline">Sign In</a>
                   </Link>
-                </li>
-                <li>
+                  <span>/</span>
                   <Link href="/signup" passHref legacyBehavior>
-                    <a className="block py-2 px-3 text-gray-800">Sign Up</a>
+                    <a className="hover:underline">Sign Up</a>
                   </Link>
-                </li>
-              </>
+                </div>
+              </li>
             ) : (
-              <>
-                <li>
-                  <Link href="/dashboard" passHref legacyBehavior>
-                    <a className="block py-2 px-3 text-gray-800">Dashboard</a>
-                  </Link>
-                </li>
-                {/* <li>
-                  <Link href="/register-user" passHref legacyBehavior>
-                    <a className="block py-2 px-3 text-gray-800">Profile</a>
-                  </Link>
-                </li> */}
-              </>
+              <li>
+                <Link href="/dashboard" passHref legacyBehavior>
+                  <a className="block py-2 px-3 text-gray-800">Dashboard</a>
+                </Link>
+              </li>
             )}
 
-            {/* <li>
-              <Link href="register-user" passHref legacyBehavior>
-                <a className="block py-2 px-3 text-gray-800">Profile</a>
-              </Link>
-            </li> */}
             <li>
               <Link href="#" passHref legacyBehavior>
+                <a className="block py-2 px-3 text-gray-800">Profile</a>
+              </Link>
+            </li>
+
+            <li>
+              <Link href="membership" passHref legacyBehavior>
                 <a className="block py-2 px-3 text-gray-800">Membership</a>
               </Link>
             </li>
             <li>
-              <Link href="all-trips" passHref legacyBehavior>
+              <Link href="booking-step" passHref legacyBehavior>
                 <a className="block py-2 px-3 text-gray-800">Book</a>
               </Link>
             </li>

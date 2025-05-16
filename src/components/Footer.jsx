@@ -93,14 +93,14 @@ export default function Footer() {
                       </h4>
                       <ul className="space-y-3">
                         <li>
-                          <Link href="/" passHref legacyBehavior>
+                          <Link href="membership" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Membership
                             </a>
                           </Link>
                         </li>
                         <li>
-                          <Link href="all-trips" passHref legacyBehavior>
+                          <Link href="booking-step" passHref legacyBehavior>
                             <a className="inline-block text-base leading-loose text-body-color hover:text-primary dark:text-dark-6">
                               Book
                             </a>

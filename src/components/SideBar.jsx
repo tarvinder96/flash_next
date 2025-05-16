@@ -120,7 +120,7 @@ export default function SideBar() {
               </button>
 
               {/* Logo */}
-              <a href="" className="flex ms-2 md:me-24">
+              <a href="/" className="flex ms-2 md:me-24">
                 <Image className="lg:w-[210px] w-[122px]" src={logo} alt="" />
               </a>
             </div>
@@ -193,7 +193,6 @@ export default function SideBar() {
                       </button>
                     </div>
                   </div>
-
                   <div
                     className={`fixed top-0 right-0 h-full bg-[#ffa858] shadow-lg transform transition-transform duration-300 ${
                       isOpen ? "translate-x-0" : "translate-x-full"
@@ -221,7 +220,7 @@ export default function SideBar() {
                     </button>
                     <ul className="flex flex-col p-4 space-y-4 ">
                       <li>
-                        <Link href="#" passHref legacyBehavior>
+                        <Link href="/" passHref legacyBehavior>
                           <a className="block py-2 px-3 text-gray-800">Home</a>
                         </Link>
                       </li>
@@ -233,14 +232,14 @@ export default function SideBar() {
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" passHref legacyBehavior>
+                        <Link href="membership" passHref legacyBehavior>
                           <a className="block py-2 px-3 text-gray-800">
                             Membership
                           </a>
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" passHref legacyBehavior>
+                        <Link href="booking-step" passHref legacyBehavior>
                           <a className="block py-2 px-3 text-gray-800">Book</a>
                         </Link>
                       </li>
@@ -341,9 +340,8 @@ export default function SideBar() {
                         d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"
                       />
                     </svg>
-
                     <span className="flex-1 ms-3 whitespace-nowrap">
-                      My Trips
+                      My Events
                     </span>
                   </a>
                 </Link>

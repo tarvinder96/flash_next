@@ -119,7 +119,6 @@ export default function EventDetailsPage() {
             console.error("Expected JSON but got:", contentType);
             return setCities([]);
           }
-
           try {
             const jsonData = JSON.parse(text);
             if (jsonData.status === "success") {
@@ -133,6 +132,7 @@ export default function EventDetailsPage() {
             setCities([]);
           }
         })
+
         .catch((error) => {
           console.error("Fetch error:", error);
           setCities([]);
@@ -329,7 +329,7 @@ export default function EventDetailsPage() {
                       Praise for our Pack Leaders
                     </h2>
 
-                    <Carousel className="w-full mt-5" opts={{ align: "start" }}>
+                    {/* <Carousel className="w-full mt-5" opts={{ align: "start" }}>
                       <CarouselContent>
                         <CarouselItem className="w-full lg:basis-1/2">
                           <div className="w-full bg-gray-50 border border-gray-200 rounded-xl shadow-lg p-6">
@@ -588,7 +588,7 @@ export default function EventDetailsPage() {
                         <CarouselPrevious className="" />
                         <CarouselNext className="" />
                       </div>
-                    </Carousel>
+                    </Carousel> */}
                   </div>
                 </div>
                 <div className="lg:col-span-4 md:col-span-5 lg:order-2 order-1 lg:px-0 px-4">

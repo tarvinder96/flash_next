@@ -121,7 +121,7 @@ export default function MyAccount() {
 
     console.log("formDataWithStatic:", formDataWithStatic);
     console.log("userData:", userData);
-    
+
     try {
       const saveresponse = await fetch(
         `https://actyvsolutions.com/flash_pack/public/api/save-card-details`,
@@ -139,7 +139,7 @@ export default function MyAccount() {
 
       if (result.status == "success") {
         alert("Booking has been Completed. Thank you!");
-         router.push("/my-bookings");
+        router.push("/my-bookings");
       } else {
         console.error(result);
         alert("Failed to save card details.");
@@ -183,82 +183,85 @@ export default function MyAccount() {
           </div>
 
           <div className="max-w-screen-xl m-auto mt-12">
-          <div className="flex items-center justify-center  bg-white-100">
-          <div className="w-full max-w-2xl">
-              <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <h2 className="text-xl font-semibold mb-5">Card Details</h2>
+            <div className="flex items-center justify-center  bg-white-100">
+              <div className="w-full max-w-2xl">
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                >
+                  <h2 className="text-xl font-semibold mb-5">Card Details</h2>
 
-                {/* Full Name */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">
-                    Full Name (as on card)
-                  </label>
-                  <input
-                    type="text"
-                    name="holder_name"
-                    value={form.holder_name}
-                    onChange={handleChange}
-                    placeholder="Johan Due"
-                    className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
-                  />
-                </div>
-
-                {/* Card Number */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    name="cardNumber"
-                    value={form.cardNumber}
-                    onChange={handleChange}
-                    // inputMode="numeric"
-                    // pattern="[0-9]*"
-                    placeholder="1234 5678 9012 3456"
-                    className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
-                  />
-                </div>
-
-                {/* Expiry and CVV */}
-                <div className="flex gap-4">
-                  <div className="flex-1">
+                  {/* Full Name */}
+                  <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">
-                      Expiry Date
+                      Full Name (as on card)
                     </label>
                     <input
                       type="text"
-                      name="expiry"
-                      value={form.expiry}
+                      name="holder_name"
+                      value={form.holder_name}
                       onChange={handleChange}
-                      placeholder="MM/YY"
+                      placeholder="Johan Due"
                       className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
                     />
                   </div>
-                  <div className="flex-1">
+
+                  {/* Card Number */}
+                  <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">
-                      CVV
+                      Card Number
                     </label>
                     <input
-                      type="password"
-                      name="cvv"
-                      value={form.cvv}
+                      type="text"
+                      name="cardNumber"
+                      value={form.cardNumber}
                       onChange={handleChange}
-                      placeholder="123"
+                      // inputMode="numeric"
+                      // pattern="[0-9]*"
+                      placeholder="1234 5678 9012 3456"
                       className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
                     />
                   </div>
-                </div>
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="mt-6 w-full bg-[#7F5539] border border-[#7F5539] text-white py-2 rounded-lg"
-                >
-                  Book Now
-                </button>
-              </form>
-            </div>
+                  {/* Expiry and CVV */}
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="block text-sm font-medium mb-1">
+                        Expiry Date
+                      </label>
+                      <input
+                        type="text"
+                        name="expiry"
+                        value={form.expiry}
+                        onChange={handleChange}
+                        placeholder="MM/YY"
+                        className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-sm font-medium mb-1">
+                        CVV
+                      </label>
+                      <input
+                        type="password"
+                        name="cvv"
+                        value={form.cvv}
+                        onChange={handleChange}
+                        placeholder="123"
+                        className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="mt-6 w-full bg-[#7F5539] border border-[#7F5539] text-white py-2 rounded-lg"
+                  >
+                    Book Now
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

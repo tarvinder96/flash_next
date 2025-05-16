@@ -8,12 +8,29 @@ import Footer from "@/components/Footer";
 import google from "@/images/google.svg";
 
 export default function SignUp() {
+  const [showCardDetails, setShowCardDetails] = useState(false);
+
   const [form, setForm] = useState({
-    name: "",      
+    name: "",
     email: "",
     password: "",
     cpassword: "",
+    membership_type: "",
+    membership_price: "",
+    holder_name: "",
+    cardnumber: "",
+    expiry: "",
+    cvv: "",
   });
+
+  const handleMembershipSelect = (type, price) => {
+    setForm((prev) => ({
+      ...prev,
+      membership_type: type,
+      membership_price: price,
+    }));
+    setShowCardDetails(true); // Show card fields after selection
+  };
 
   const [step, setStep] = useState(1);
 
@@ -40,14 +57,17 @@ export default function SignUp() {
     }
 
     try {
-      const res = await fetch(`https://actyvsolutions.com/flash_pack/public/api/user-register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        }, 
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        `https://actyvsolutions.com/flash_pack/public/api/user-register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       const data = await res.json();
 
@@ -66,7 +86,13 @@ export default function SignUp() {
           window.location.href = `/register-user`;
         }, 2000);
 
-        setForm({ name: "", email: "", password: "", cpassword: "" });
+        setForm({
+          name: "",
+          email: "",
+          password: "",
+          cpassword: "",
+          membership: "",
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -96,9 +122,12 @@ export default function SignUp() {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                   Sign Up
                 </h1>
-                <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                <form
+                  className="space-y-4 md:space-y-6"
+                  onSubmit={handleSubmit}
+                >
                   <div>
-                    <label           
+                    <label
                       htmlFor="name"
                       className="block mb-2 text-sm font-medium text-gray-900"
                     >
@@ -172,6 +201,173 @@ export default function SignUp() {
                       required
                     />
                   </div>
+
+                  {/* <div className="flex items-center gap-6 text-sm text-gray-700">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership"
+                        value="20"
+                        onChange={handleChange}
+                      />
+                      <strong>Local - $20/month</strong>
+                    </label>
+
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership"
+                        value="25"
+                        onChange={handleChange}
+                      />
+                      <strong>Corporate - $25/month</strong>
+                    </label>
+
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership_type	"
+                        value="15"
+                        onChange={handleChange}
+                      />
+                      <strong>Frequent Flyer - $15/month</strong>
+                    </label>
+                  </div> */}
+                  <div className="flex items-center gap-6 text-sm text-gray-700">
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership"
+                        onChange={() => handleMembershipSelect("Local", 20)}
+                      />
+                      <strong>Local - $20/month</strong>
+                    </label>
+
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership"
+                        onChange={() => handleMembershipSelect("Corporate", 25)}
+                      />
+                      <strong>Corporate - $25/month</strong>
+                    </label>
+
+                    <label className="flex items-center gap-1">
+                      <input
+                        type="radio"
+                        name="membership"
+                        onChange={() =>
+                          handleMembershipSelect("Frequent Flyer", 15)
+                        }
+                      />
+                      <strong>Frequent Flyer - $15/month</strong>
+                    </label>
+                  </div>
+
+                  {showCardDetails && (
+                    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                      <h2 className="text-xl font-semibold mb-5">
+                        Card Details
+                      </h2>
+
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium mb-1">
+                          Full Name (as on card)
+                        </label>
+                        <input
+                          type="text"
+                          name="holder_name"
+                          value={form.holder_name}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Allow only alphabets and spaces
+                            if (/^[a-zA-Z\s]*$/.test(value)) {
+                              handleChange(e);
+                            }
+                          }}
+                          placeholder="John Doe"
+                          className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                          required={!!form.membership}
+                        />
+                      </div>
+
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium mb-1">
+                          Card Number
+                        </label>
+                        <input
+                          type="text"
+                          name="cardnumber"
+                          value={form.cardnumber}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (/^[0-9\s]*$/.test(value)) {
+                              handleChange(e);
+                            }
+                          }}
+                          placeholder="1234 5678 9012 3456"
+                          className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                          required={!!form.membership}
+                        />
+                      </div>
+
+                      <div className="flex gap-4">
+                        <div className="flex-1">
+                          <label className="block text-sm font-medium mb-1">
+                            Expiry Date
+                          </label>
+                          <input
+                            type="text"
+                            name="expiry"
+                            value={form.expiry}
+                            onChange={(e) => {
+                              let value = e.target.value.replace(/[^\d]/g, ""); // Remove non-digits
+
+                              if (value.length > 2) {
+                                value =
+                                  value.slice(0, 2) + "/" + value.slice(2, 4); // Insert slash after MM
+                              }
+
+                              if (value.length > 5) {
+                                value = value.slice(0, 5); // Limit to MM/YY
+                              }
+
+                              handleChange({
+                                target: {
+                                  name: "expiry",
+                                  value: value,
+                                },
+                              });
+                            }}
+                            placeholder="MM/YY"
+                            className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                            required={!!form.membership}
+                          />
+                        </div>
+
+                        <div className="flex-1">
+                          <label className="block text-sm font-medium mb-1">
+                            CVV
+                          </label>
+                          <input
+                            type="password"
+                            name="cvv"
+                            value={form.cvv}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Allow only digits and max length 4
+                              if (/^\d{0,4}$/.test(value)) {
+                                handleChange(e);
+                              }
+                            }}
+                            placeholder="123"
+                            className="border p-2 mt-1 rounded-lg bg-gray-100 w-full"
+                            required={!!form.membership}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="">
                     <button
